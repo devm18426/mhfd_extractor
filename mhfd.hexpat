@@ -2,6 +2,8 @@
 
 #pragma endian little
 
+import std.string;
+
 struct MHFD {
     //char     id[4];        // "mhfd"
     u32     headerLen;   // usually 0x84
@@ -62,14 +64,16 @@ struct MHOD {
     
     padding[headerLen - 16];
     
-    if (type == 3) {
+    if (type == 1 || type == 3) {
         u32 stringLength;
         u32 unknown2;
         u32 unknown3;
 
-        char content[stringLength];
-                
-        padding[totalLen - 4 - headerLen - stringLength - 8];
+        if (unknown2 == 1) {
+            std::string::NullString content;
+        } else if (unknown2 == 2) {
+            std::string::NullString16 content;
+        }
     }
 
     //u8    data[total_len - header_len];
@@ -90,6 +94,58 @@ struct MHNI {
     u32  unknown;
     u32 imageSize;
     padding[headerLen - 44];
+};
+
+struct MHLA {
+    u32 headerLen;
+    u32 numChildren;
+    padding[headerLen - 12];
+};
+
+struct MHBA {
+    u32 headerLen;
+    u32 totalLen;
+    u32 numDataObjChildren;
+    u32 numAlbumItemChildren;
+    u32 playlistId;
+    u32 unknown2;
+    u16 unknown3;
+    char albumType;
+    char playMusic;
+    char repeat;
+    char random;
+    char showTitles;
+    char transitionDirection;
+    u32 slideDuration;
+    u32 transitionDuration;
+    u32 unknown7;
+    u32 unknown8;
+    u64 dbid2;
+    u32 prevPlaylistId;
+    padding[headerLen - 64];
+};
+
+struct MHIA {
+    u32 headerLen;
+    u32 totalLen;
+    u32 unknown1;
+    u32 imageId;
+    padding[headerLen - 20];
+};
+
+struct MHLF {
+    u32 headerLen;
+    u32 numFiles;
+    padding[headerLen - 12];
+};
+
+struct MHIF {
+    u32 headerLen;
+    u32 totalLen;
+    u32 unknown1;
+    u32 corrId;
+    u32 imageSize;
+    padding[headerLen - 24];
 };
 
 struct Node {
@@ -130,6 +186,23 @@ struct Node {
         MHLI body;
         
         Node images[body.numImages];
+    } else if (magic == "mhla") {
+        MHLA body;
+        
+        Node children[body.numChildren];
+    } else if (magic == "mhba") {
+        MHBA body;
+        
+        Node dataObjChildren[body.numDataObjChildren];
+        Node albumItemChildren[body.numAlbumItemChildren];
+    } else if (magic == "mhia") {
+        MHIA body;
+    } else if (magic == "mhlf") {
+        MHLF body;
+        
+        Node files[body.numFiles];
+    } else if (magic == "mhif") {
+        MHIF body;
     }
 };
 
