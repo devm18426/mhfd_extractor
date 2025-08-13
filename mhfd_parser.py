@@ -310,7 +310,7 @@ class Node:
             self.body = MHIF(f)
 
         else:
-            print(f"Unknown magic: {self.magic} at offset {self.offset}")
+            raise ValueError(f"Unknown magic: {self.magic} at offset {self.offset}")
 
 
 def parse_photo_database(file_path):
