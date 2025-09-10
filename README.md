@@ -51,3 +51,9 @@ drwxrwxrwx 1 root root      4096 Jan 1 23:09 ..
 -rwxrwxrwx 1 root root 189388800 Sep 10  2007 F1024_1.ithmb
 -rwxrwxrwx 1 root root   5055300 Sep 10  2007 F1036_1.ithmb
 ```
+
+Cool examples of failed extraction attempts (interlacing and RGB conversion wasn't working quite right):
+<img width="704" height="480" alt="Fail image 1" src="https://github.com/user-attachments/assets/51429571-b1b1-439e-832a-daa1fc8c5a7c" />
+<img width="704" height="480" alt="Fail image 2" src="https://github.com/user-attachments/assets/a6a14f9f-f2b6-484d-9f7b-414aa0cc2d8e" />
+
+
